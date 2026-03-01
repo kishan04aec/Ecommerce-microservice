@@ -26,8 +26,67 @@ A small Spring Cloud microservice setup with Config Server, Eureka, and three do
 - User Service: 8082
 - Order Service: 8083
 
-## Configuration Overview
+Configuration Overview
+Configs live in configserver/src/main/resources/config/:
 
-Configs live in:
+product-service.yaml: PostgreSQL settings; expects DB_USER and DB_PASSWORD env vars
+order-service.yml: PostgreSQL settings
+user-service.yaml: MongoDB settings
+Each service imports config from the config server via:
+
+optional:configserver:http://localhost:8888
+Service Functionality
+Config Server: Serves centralized config from configserver/src/main/resources/config/ using the native file system backend.
+Eureka Server: Service discovery registry for all services.
+Product Service (/api/products):
+POST /api/products create a product
+GET /api/products list active products
+GET /api/products/{id} fetch a product by id (active only)
+PUT /api/products/{id} update a product
+DELETE /api/products/{id} soft-delete a product (sets active=false)
+GET /api/products/search?keyword=... search products by keyword
+User Service (/api/users):
+POST /api/users create a user
+GET /api/users list users
+GET /api/users/{id} fetch a user by id
+PUT /api/users/{id} update a user
+Order Service:
+POST /api/orders create an order from the current cart; requires header X-User-ID
+Cart Service:
+POST /api/cart add item to cart; requires header X-User-ID
+GET /api/cart list cart items; requires header X-User-ID
+DELETE /api/cart/items/{productId} remove cart item; requires header X-USER-ID
+Order service calls Product service at http://192.168.0.106:8081/ via ProductServiceClients to validate product and stock before cart add.
+Prerequisites
+Java 25 installed
+Docker (for Postgres/RabbitMQ/pgAdmin)
+Local Setup
+Start infrastructure services:
+docker compose up -d
+Start Config Server:
+./mvnw -f configserver/pom.xml spring-boot:run
+Start Eureka Server:
+./mvnw -f eureka/pom.xml spring-boot:run
+Start domain services (in any order):
+./mvnw -f product/pom.xml spring-boot:run
+./mvnw -f user/pom.xml spring-boot:run
+./mvnw -f order/pom.xml spring-boot:run
+Notes
+The config server uses a local absolute path in configserver/src/main/resources/application.yaml. If you move the repo, update spring.cloud.config.server.native.search-locations to your local path.
+product-service expects DB_USER and DB_PASSWORD environment variables (see product-service.yaml).
+RabbitMQ is required for Spring Cloud Bus (spring-cloud-starter-bus-amqp).
+Useful URLs
+Eureka dashboard: http://localhost:8761
+RabbitMQ UI: http://localhost:15672
+pgAdmin: http://localhost:5050
+Project Structure
+.
+├─ configserver
+├─ eureka
+├─ product
+├─ order
+├─ user
+└─ docker-compose.yml
+Screenshot : 
 
 
