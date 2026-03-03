@@ -164,7 +164,12 @@ spring-cloud-starter-bus-amqp
 
 ## Screenshot
 
-Add screenshots here (Eureka dashboard, services running, etc.)
+<img width="2026" height="1464" alt="image" src="https://github.com/user-attachments/assets/a3c62798-e23d-46fa-a004-53894587f441" />
+<img width="2160" height="1600" alt="image" src="https://github.com/user-attachments/assets/e0571317-ea98-41ef-bb11-ca6c4815cd9a" />
+<img width="2070" height="1448" alt="image" src="https://github.com/user-attachments/assets/c1df00a8-68df-4c2d-a223-61bfdbba1e8f" />
+
+
+
 
 
 
