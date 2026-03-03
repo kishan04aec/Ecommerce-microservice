@@ -64,25 +64,93 @@ optional:configserver:http://localhost:8888
 - Java 25 installed
 - Docker (for Postgres/RabbitMQ/pgAdmin)
 ## Local Setup
-Start infrastructure services:
+
+### 1. Start infrastructure services
+
+```bash
 docker compose up -d
-Start Config Server:
+```
+
+This will start:
+- PostgreSQL
+- RabbitMQ
+- pgAdmin
+
+---
+
+### 2. Start Config Server
+
+```bash
 ./mvnw -f configserver/pom.xml spring-boot:run
-Start Eureka Server:
+```
+
+---
+
+### 3. Start Eureka Server
+
+```bash
 ./mvnw -f eureka/pom.xml spring-boot:run
-Start domain services (in any order):
+```
+
+---
+
+### 4. Start Domain Services (in any order)
+
+```bash
 ./mvnw -f product/pom.xml spring-boot:run
 ./mvnw -f user/pom.xml spring-boot:run
 ./mvnw -f order/pom.xml spring-boot:run
-Notes
-The config server uses a local absolute path in configserver/src/main/resources/application.yaml. If you move the repo, update spring.cloud.config.server.native.search-locations to your local path.
-product-service expects DB_USER and DB_PASSWORD environment variables (see product-service.yaml).
-RabbitMQ is required for Spring Cloud Bus (spring-cloud-starter-bus-amqp).
-Useful URLs
-Eureka dashboard: http://localhost:8761
-RabbitMQ UI: http://localhost:15672
-pgAdmin: http://localhost:5050
-Project Structure
+```
+
+---
+
+## Notes
+
+- The **Config Server** uses a local absolute path in:
+
+```
+configserver/src/main/resources/application.yaml
+```
+
+If you move the repository, update the following property:
+
+```
+spring.cloud.config.server.native.search-locations
+```
+
+- `product-service` expects the following environment variables:
+
+```
+DB_USER
+DB_PASSWORD
+```
+
+(Check `product-service.yaml`)
+
+- **RabbitMQ** is required for Spring Cloud Bus:
+
+```
+spring-cloud-starter-bus-amqp
+```
+
+---
+
+## Useful URLs
+
+- **Eureka Dashboard:**  
+  http://localhost:8761
+
+- **RabbitMQ UI:**  
+  http://localhost:15672
+
+- **pgAdmin:**  
+  http://localhost:5050
+
+---
+
+## Project Structure
+
+```
 .
 ├─ configserver
 ├─ eureka
@@ -90,6 +158,13 @@ Project Structure
 ├─ order
 ├─ user
 └─ docker-compose.yml
-Screenshot : 
+```
+
+---
+
+## Screenshot
+
+Add screenshots here (Eureka dashboard, services running, etc.)
+
 
 
