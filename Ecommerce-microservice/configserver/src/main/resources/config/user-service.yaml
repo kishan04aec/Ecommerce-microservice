@@ -1,0 +1,44 @@
+spring:
+  h2:
+    console:
+      enabled: true
+
+  mongodb:
+    uri: mongodb://localhost:27017/userdb
+    database: userdb
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/userdb
+#    username: aditya
+#    password: aditya
+#
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#    database: postgresql
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+server:
+  port: 8082
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
